@@ -1,18 +1,18 @@
 public class Anime {
-    private String name;
+    private String title;
     private double rating;
 
-    public Anime(String name, double rating) {
-        this.name = name;
+    public Anime(String title, double rating) {
+        this.title = title;
         this.rating = rating;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public double getRating() {
@@ -24,7 +24,7 @@ public class Anime {
     }
 
     public String toString() {
-        String print = "Anime name: " + name;
+        String print = "Anime title: " + title;
         print += "\nRating: " + rating;
         return print;
     }
