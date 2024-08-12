@@ -44,7 +44,7 @@ public class APIConnection {
             if (dataNode.isArray() && dataNode.size() > 0) {
                 for (JsonNode animeNode : dataNode) {
                     int malId = animeNode.path("mal_id").asInt();
-                    String title = animeNode.path("title").asText();
+                    String title = animeNode.path("title_english").asText();
                     double score = animeNode.path("score").asDouble();
                     String imageUrl = animeNode.path("images").path("jpg").path("image_url").asText();
                     String description = animeNode.path("synopsis").asText();
@@ -59,4 +59,55 @@ public class APIConnection {
 
         return list;
     }
+
+    public SearchedAnime searchAnime(String searchQuery) {
+        HttpClient client = HttpClient.newHttpClient();
+        String encodedQuery = URLEncoder.encode(searchQuery, StandardCharsets.UTF_8);
+        String url = "https://api.jikan.moe/v4/anime?q=" + encodedQuery + "&limit=1";
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .GET()
+                .build();
+
+        SearchedAnime anime = null;
+
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            anime = parseSingleAnime(response.body());
+            //System.out.println(response.body());
+        } catch (Exception e) {
+            //logger.severe("There was an error while fetching data: " + e.getMessage());
+        }
+        return anime;
+    }
+
+    private SearchedAnime parseSingleAnime(String responseBody) {
+        SearchedAnime anime = null;
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode rootNode = mapper.readTree(responseBody);
+
+            // Access the first anime data from the "data" array
+            JsonNode dataNode = rootNode.path("data");
+            if (dataNode.isArray() && dataNode.size() > 0) {
+                JsonNode animeNode = dataNode.get(0); // Get the first anime
+
+                int malId = animeNode.path("mal_id").asInt();
+                String title = animeNode.path("title").asText();
+                double score = animeNode.path("score").asDouble();
+                String imageUrl = animeNode.path("images").path("jpg").path("image_url").asText();
+                String description = animeNode.path("synopsis").asText();
+
+                anime = new SearchedAnime(malId, title, score, imageUrl, description);
+            }
+        } catch (Exception e) {
+            //logger.severe("There was an error while parsing data: " + e.getMessage());
+        }
+
+        return anime;
+    }
+
+
 }
