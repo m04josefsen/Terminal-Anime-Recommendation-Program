@@ -74,7 +74,6 @@ public class SearchedAnime {
         for(String genre : genres) {
             print += "\n- " + genre;
         }
-        print += "\n";
 
         return print;
     }

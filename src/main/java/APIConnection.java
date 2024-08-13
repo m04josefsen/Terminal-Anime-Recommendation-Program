@@ -81,6 +81,9 @@ public class APIConnection {
         SearchedAnime anime = null;
 
         try {
+            int delay = 1000;
+            Thread.sleep(delay);
+
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             anime = parseSingleAnime(response.body());
             //System.out.println(response.body());
