@@ -52,8 +52,6 @@ public class Main {
         Scanner s = new Scanner(System.in);
         List<Anime> animelist = new ArrayList<>();
 
-        APIConnection api = new APIConnection();
-
         String print = "Copy your Anime List from anilist.co and paste it under";
         System.out.println(print);
 
@@ -65,6 +63,7 @@ public class Main {
             if(animeTitle.equals("END")) {
                 isActive = false;
                 continue;
+                //break;
             }
 
             double animeRating = Double.parseDouble(s.nextLine());
@@ -73,15 +72,12 @@ public class Main {
 
             Anime anime = new Anime(animeTitle, animeRating);
             animelist.add(anime);
-            System.out.println(anime);
-
-            System.out.println(episodeCount);
-            System.out.println(animeFormat);
         }
 
         System.out.println("ute av loop");
 
         userRatings(animelist);
+        addGenreScore();
 
         for(Genre g : allGenres) {
             System.out.println(g);
@@ -113,19 +109,11 @@ public class Main {
     }
 
     public static void userRatings(List<Anime> animelist) {
-        /*
-        -Loop gjennom listen og kall API Connection
-        -Der finner du sjangerne til animeen, og du må også ta vare på ratingen du har gitt
-        -dvs du lager en searched anime object?
-        -må gå genres inn i search anime object
-         */
-
         APIConnection api = new APIConnection();
         List<SearchedAnime> watchedlist = new ArrayList<>();
 
         for(Anime anime : animelist) {
             SearchedAnime newAnime = api.searchAnime(anime.getTitle());
-            //TODO: skal egt ikke ha != null, men har problemer
             if(newAnime != null) {
                 System.out.println(newAnime);
                 System.out.println();
@@ -142,6 +130,18 @@ public class Main {
                 }
             }
         }
+        System.out.println("SIZE: " + watchedlist.size());
+    }
+
+    public static void recommendationAlgorithm() {
+
+    }
+
+    public static void addGenreScore() {
+        for(Genre g : allGenres) {
+            g.setGenreScore(g.getCollectiveRating() / (g.getGenreCount() + 1));
+        }
+        allGenres.sort(Comparator.comparingDouble(Genre::getGenreScore).reversed());
     }
 
     public static void initializeGenres() {

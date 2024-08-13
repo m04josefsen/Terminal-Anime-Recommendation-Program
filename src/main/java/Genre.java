@@ -3,6 +3,7 @@ public class Genre {
     private String genreCode;
     private int genreCount;
     private double collectiveRating;
+    private double genreScore;
 
     public Genre(String genreName, String genreCode, int genreCount, double collectiveRating) {
         this.genreName = genreName;
@@ -43,11 +44,20 @@ public class Genre {
         this.collectiveRating = collectiveRating;
     }
 
+    public double getGenreScore() {
+        return genreScore;
+    }
+
+    public void setGenreScore(double genreScore) {
+        this.genreScore = genreScore;
+    }
+
     public String toString() {
         String print = "Genre name: " + genreName;
         print += "\nGenre code: " + genreCode;
         print += "\nGenre count: " + genreCount;
         print += "\nCollective rating: " + collectiveRating;
+        print += "\nGenre score: " + genreScore;
         return print;
     }
 }
