@@ -49,7 +49,15 @@ public class APIConnection {
                     String imageUrl = animeNode.path("images").path("jpg").path("image_url").asText();
                     String description = animeNode.path("synopsis").asText();
 
-                    SearchedAnime anime = new SearchedAnime(malId, title, score, imageUrl, description);
+                    List<String> genres = new ArrayList<>();
+                    JsonNode genresNode = animeNode.path("genres");
+                    if (genresNode.isArray()) {
+                        for (JsonNode genreNode : genresNode) {
+                            genres.add(genreNode.path("name").asText());
+                        }
+                    }
+
+                    SearchedAnime anime = new SearchedAnime(malId, title, score, imageUrl, description, genres);
                     list.add(anime);
                 }
             }
@@ -100,7 +108,16 @@ public class APIConnection {
                 String imageUrl = animeNode.path("images").path("jpg").path("image_url").asText();
                 String description = animeNode.path("synopsis").asText();
 
-                anime = new SearchedAnime(malId, title, score, imageUrl, description);
+                //TODO: gjør noe med genres
+                List<String> genres = new ArrayList<>();
+                JsonNode genresNode = animeNode.path("genres");
+                if (genresNode.isArray()) {
+                    for (JsonNode genreNode : genresNode) {
+                        genres.add(genreNode.path("name").asText());
+                    }
+                }
+
+                anime = new SearchedAnime(malId, title, score, imageUrl, description, genres);
             }
         } catch (Exception e) {
             //logger.severe("There was an error while parsing data: " + e.getMessage());

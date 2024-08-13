@@ -1,16 +1,20 @@
+import java.util.List;
+
 public class SearchedAnime {
     private int malId;
     private String title;
     private double score;
     private String imageUrl;
     private String description;
+    private List<String> genres;
 
-    public SearchedAnime(int malId, String title, double score, String imageUrl, String description) {
+    public SearchedAnime(int malId, String title, double score, String imageUrl, String description, List<String> genres) {
         this.malId = malId;
         this.title = title;
         this.score = score;
         this.imageUrl = imageUrl;
         this.description = description;
+        this.genres = genres;
     }
 
     public int getMalId() {
@@ -53,12 +57,25 @@ public class SearchedAnime {
         this.description = description;
     }
 
+    public List<String> getGenres() {
+        return genres;
+    }
+    public void setGenres(List<String> genres) {
+        this.genres = genres;
+    }
+
     public String toString() {
         String print = "MyAnimeList ID: " + malId;
         print += "\nTitle: " + title;
         print += "\nScore: " + score;
         print += "\nImageUrl: " + imageUrl;
         print += "\nDescription: " + description;
+        print += "\nGenres: ";
+        for(String genre : genres) {
+            print += "\n- " + genre;
+        }
+        print += "\n";
+
         return print;
     }
 }
