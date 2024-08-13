@@ -1,21 +1,72 @@
 import java.util.*;
 
 public class Main {
+    private static Genre action;
+    private static Genre adventure;
+    private static Genre cars;
+    private static Genre comedy;
+    private static Genre dementia;
+    private static Genre demons;
+    private static Genre mystery;
+    private static Genre drama;
+    private static Genre ecchi;
+    private static Genre fantasy;
+    private static Genre game;
+    private static Genre hentai;
+    private static Genre historical;
+    private static Genre horror;
+    private static Genre kids;
+    private static Genre magic;
+    private static Genre martialArts;
+    private static Genre mecha;
+    private static Genre music;
+    private static Genre parody;
+    private static Genre samurai;
+    private static Genre romance;
+    private static Genre school;
+    private static Genre sciFi;
+    private static Genre shoujo;
+    private static Genre shoujoAi;
+    private static Genre shounen;
+    private static Genre shounenAi;
+    private static Genre space;
+    private static Genre sports;
+    private static Genre superPower;
+    private static Genre vampire;
+    private static Genre yaoi;
+    private static Genre yuri;
+    private static Genre harem;
+    private static Genre sliceOfLife;
+    private static Genre supernatural;
+    private static Genre military;
+    private static Genre police;
+    private static Genre psychological;
+    private static Genre thriller;
+    private static Genre seinen;
+    private static Genre josei;
+    private static List<Genre> allGenres;
+
     public static void main(String[] args) {
+        initializeGenres();
+
         Scanner s = new Scanner(System.in);
         List<Anime> animelist = new ArrayList<>();
-        boolean isActive = true;
 
         APIConnection api = new APIConnection();
-        Map<String, String> genreMap = genreMap();
 
         String print = "Copy your Anime List from anilist.co and paste it under";
         System.out.println(print);
 
-        //TODO: Nå må man ha en ekstra tom linje når du limer inn
-        /*
-        while(s.hasNextLine()) {
+        boolean isActive = true;
+
+        while(isActive) {
             String animeTitle = s.nextLine();
+
+            if(animeTitle.equals("END")) {
+                isActive = false;
+                continue;
+            }
+
             double animeRating = Double.parseDouble(s.nextLine());
             int episodeCount = Integer.parseInt(s.nextLine());
             String animeFormat = s.nextLine();
@@ -27,71 +78,161 @@ public class Main {
             System.out.println(episodeCount);
             System.out.println(animeFormat);
         }
-         */
-        System.out.println("Ute av loop");
-        List<SearchedAnime> list = api.fetchTopAnimesByGenre(genreMap.get("Romance"), 10);
 
-        for(SearchedAnime anime : list) {
-            System.out.println(anime);
+        System.out.println("ute av loop");
+
+        userRatings(animelist);
+
+        for(Genre g : allGenres) {
+            System.out.println(g);
+            System.out.println();
         }
-
-        //TODO: loop gjennom animelist å søk i APIConnection for å finne hvilken genres de er + hva hen rata de
 
         /*
-        while(isActive) {
+        List<SearchedAnime> topGenreList = api.fetchTopAnimesByGenre(genreMap.get("Romance"), 25);
+        List<SearchedAnime> toRemove = new ArrayList<>();
 
+        for(SearchedAnime topAnime : topGenreList) {
+            for(Anime anime : animelist) {
+                if(anime.getTitle().equals(topAnime.getTitle())) {
+                    toRemove.add(topAnime);
+                }
+            }
+        }
+
+        topGenreList.removeAll(toRemove);
+
+        System.out.println(topGenreList.size());
+
+        for(SearchedAnime topAnime : topGenreList) {
+            System.out.println(topAnime);
         }
 
          */
+
     }
 
-    public static Map<String, String> genreMap() {
-        Map<String, String> genreMap = new HashMap<>();
+    public static void userRatings(List<Anime> animelist) {
+        /*
+        -Loop gjennom listen og kall API Connection
+        -Der finner du sjangerne til animeen, og du må også ta vare på ratingen du har gitt
+        -dvs du lager en searched anime object?
+        -må gå genres inn i search anime object
+         */
 
-        genreMap.put("Action", "1");
-        genreMap.put("Adventure", "2");
-        genreMap.put("Cars", "3");
-        genreMap.put("Comedy", "4");
-        genreMap.put("Dementia", "5");
-        genreMap.put("Demons", "6");
-        genreMap.put("Mystery", "7");
-        genreMap.put("Drama", "8");
-        genreMap.put("Ecchi", "9");
-        genreMap.put("Fantasy", "10");
-        genreMap.put("Game", "11");
-        genreMap.put("Hentai", "12");
-        genreMap.put("Historical", "13");
-        genreMap.put("Horror", "14");
-        genreMap.put("Kids", "15");
-        genreMap.put("Magic", "16");
-        genreMap.put("Martial Arts", "17");
-        genreMap.put("Mecha", "18");
-        genreMap.put("Music", "19");
-        genreMap.put("Parody", "20");
-        genreMap.put("Samurai", "21");
-        genreMap.put("Romance", "22");
-        genreMap.put("School", "23");
-        genreMap.put("Sci-Fi", "24");
-        genreMap.put("Shoujo", "25");
-        genreMap.put("Shoujo Ai", "26");
-        genreMap.put("Shounen", "27");
-        genreMap.put("Shounen Ai", "28");
-        genreMap.put("Space", "29");
-        genreMap.put("Sports", "30");
-        genreMap.put("Super Power", "31");
-        genreMap.put("Vampire", "32");
-        genreMap.put("Yaoi", "33");
-        genreMap.put("Yuri", "34");
-        genreMap.put("Harem", "35");
-        genreMap.put("Slice of Life", "36");
-        genreMap.put("Supernatural", "37");
-        genreMap.put("Military", "38");
-        genreMap.put("Police", "39");
-        genreMap.put("Psychological", "40");
-        genreMap.put("Thriller", "41");
-        genreMap.put("Seinen", "42");
-        genreMap.put("Josei", "43");
+        APIConnection api = new APIConnection();
+        List<SearchedAnime> watchedlist = new ArrayList<>();
 
-        return genreMap;
+        for(Anime anime : animelist) {
+            SearchedAnime newAnime = api.searchAnime(anime.getTitle());
+            //TODO: skal egt ikke ha != null, men har problemer
+            if(newAnime != null) {
+                System.out.println(newAnime);
+                System.out.println();
+
+                watchedlist.add(newAnime);
+                List<String> genres = newAnime.getGenres();
+                for(String genre : genres) {
+                    for(Genre g : allGenres) {
+                        if(genre.equals(g.getGenreName())) {
+                            g.setGenreCount(g.getGenreCount() + 1);
+                            g.setCollectiveRating(g.getCollectiveRating() + anime.getRating());
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public static void initializeGenres() {
+        allGenres = new ArrayList<>();
+
+        action = new Genre("Action", "1", 0, 0.0);
+        adventure = new Genre("Adventure", "2", 0, 0.0);
+        cars = new Genre("Cars", "3", 0, 0.0);
+        comedy = new Genre("Comedy", "4", 0, 0.0);
+        dementia = new Genre("Dementia", "5", 0, 0.0);
+        demons = new Genre("Demons", "6", 0, 0.0);
+        mystery = new Genre("Mystery", "7", 0, 0.0);
+        drama = new Genre("Drama", "8", 0, 0.0);
+        ecchi = new Genre("Ecchi", "9", 0, 0.0);
+        fantasy = new Genre("Fantasy", "10", 0, 0.0);
+        game = new Genre("Game", "11", 0, 0.0);
+        hentai = new Genre("Hentai", "12", 0, 0.0);
+        historical = new Genre("Historical", "13", 0, 0.0);
+        horror = new Genre("Horror", "14", 0, 0.0);
+        kids = new Genre("Kids", "15", 0, 0.0);
+        magic = new Genre("Magic", "16", 0, 0.0);
+        martialArts = new Genre("Martial Arts", "17", 0, 0.0);
+        mecha = new Genre("Mecha", "18", 0, 0.0);
+        music = new Genre("Music", "19", 0, 0.0);
+        parody = new Genre("Parody", "20", 0, 0.0);
+        samurai = new Genre("Samurai", "21", 0, 0.0);
+        romance = new Genre("Romance", "22", 0, 0.0);
+        school = new Genre("School", "23", 0, 0.0);
+        sciFi = new Genre("Sci-Fi", "24", 0, 0.0);
+        shoujo = new Genre("Shoujo", "25", 0, 0.0);
+        shoujoAi = new Genre("Shoujo Ai", "26", 0, 0.0);
+        shounen = new Genre("Shounen", "27", 0, 0.0);
+        shounenAi = new Genre("Shounen Ai", "28", 0, 0.0);
+        space = new Genre("Space", "29", 0, 0.0);
+        sports = new Genre("Sports", "30", 0, 0.0);
+        superPower = new Genre("Super Power", "31", 0, 0.0);
+        vampire = new Genre("Vampire", "32", 0, 0.0);
+        yaoi = new Genre("Yaoi", "33", 0, 0.0);
+        yuri = new Genre("Yuri", "34", 0, 0.0);
+        harem = new Genre("Harem", "35", 0, 0.0);
+        sliceOfLife = new Genre("Slice of Life", "36", 0, 0.0);
+        supernatural = new Genre("Supernatural", "37", 0, 0.0);
+        military = new Genre("Military", "38", 0, 0.0);
+        police = new Genre("Police", "39", 0, 0.0);
+        psychological = new Genre("Psychological", "40", 0, 0.0);
+        thriller = new Genre("Thriller", "41", 0, 0.0);
+        seinen = new Genre("Seinen", "42", 0, 0.0);
+        josei = new Genre("Josei", "43", 0, 0.0);
+
+        allGenres.add(action);
+        allGenres.add(adventure);
+        allGenres.add(cars);
+        allGenres.add(comedy);
+        allGenres.add(dementia);
+        allGenres.add(demons);
+        allGenres.add(mystery);
+        allGenres.add(drama);
+        allGenres.add(ecchi);
+        allGenres.add(fantasy);
+        allGenres.add(game);
+        allGenres.add(hentai);
+        allGenres.add(historical);
+        allGenres.add(horror);
+        allGenres.add(kids);
+        allGenres.add(magic);
+        allGenres.add(martialArts);
+        allGenres.add(mecha);
+        allGenres.add(music);
+        allGenres.add(parody);
+        allGenres.add(samurai);
+        allGenres.add(romance);
+        allGenres.add(school);
+        allGenres.add(sciFi);
+        allGenres.add(shoujo);
+        allGenres.add(shoujoAi);
+        allGenres.add(shounen);
+        allGenres.add(shounenAi);
+        allGenres.add(space);
+        allGenres.add(sports);
+        allGenres.add(superPower);
+        allGenres.add(vampire);
+        allGenres.add(yaoi);
+        allGenres.add(yuri);
+        allGenres.add(harem);
+        allGenres.add(sliceOfLife);
+        allGenres.add(supernatural);
+        allGenres.add(military);
+        allGenres.add(police);
+        allGenres.add(psychological);
+        allGenres.add(thriller);
+        allGenres.add(seinen);
+        allGenres.add(josei);
     }
 }
