@@ -9,8 +9,11 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class APIConnection {
+    private static final Logger logger = Logger.getLogger(APIConnection.class.getName());
+
     public List<SearchedAnime> fetchTopAnimesByGenre(String genre, int limit) {
         HttpClient client = HttpClient.newHttpClient();
         String encodedGenre = URLEncoder.encode(genre, StandardCharsets.UTF_8);
@@ -27,7 +30,7 @@ public class APIConnection {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             list = parseAnimeList(response.body());
         } catch (Exception e) {
-            //logger.severe("There was an error while fetching top animes by genre: " + e.getMessage());
+            logger.severe("There was an error while fetching top animes by genre: " + e.getMessage());
         }
 
         return list;
@@ -62,7 +65,7 @@ public class APIConnection {
                 }
             }
         } catch (Exception e) {
-            //logger.severe("There was an error while parsing data: " + e.getMessage());
+            logger.severe("There was an error while parsing data: " + e.getMessage());
         }
 
         return list;
@@ -86,9 +89,8 @@ public class APIConnection {
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             anime = parseSingleAnime(response.body());
-            //System.out.println(response.body());
         } catch (Exception e) {
-            //logger.severe("There was an error while fetching data: " + e.getMessage());
+            logger.severe("There was an error while fetching data: " + e.getMessage());
         }
         return anime;
     }
@@ -111,7 +113,6 @@ public class APIConnection {
                 String imageUrl = animeNode.path("images").path("jpg").path("image_url").asText();
                 String description = animeNode.path("synopsis").asText();
 
-                //TODO: gjør noe med genres
                 List<String> genres = new ArrayList<>();
                 JsonNode genresNode = animeNode.path("genres");
                 if (genresNode.isArray()) {
@@ -123,7 +124,7 @@ public class APIConnection {
                 anime = new SearchedAnime(malId, title, score, imageUrl, description, genres);
             }
         } catch (Exception e) {
-            //logger.severe("There was an error while parsing data: " + e.getMessage());
+            logger.severe("There was an error while parsing data: " + e.getMessage());
         }
 
         return anime;
