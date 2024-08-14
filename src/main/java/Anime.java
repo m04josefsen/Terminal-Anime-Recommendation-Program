@@ -7,14 +7,16 @@ public class Anime {
     private String imageUrl;
     private String description;
     private List<String> genres;
+    private double userScore;
 
-    public Anime(int malId, String title, double score, String imageUrl, String description, List<String> genres) {
+    public Anime(int malId, String title, double score, String imageUrl, String description, List<String> genres, double userScore) {
         this.malId = malId;
         this.title = title;
         this.score = score;
         this.imageUrl = imageUrl;
         this.description = description;
         this.genres = genres;
+        this.userScore = userScore;
     }
 
     public int getMalId() {
@@ -64,6 +66,14 @@ public class Anime {
         this.genres = genres;
     }
 
+    public double getUserScore() {
+        return userScore;
+    }
+
+    public void setUserScore(double userScore) {
+        this.userScore = userScore;
+    }
+
     public String toString() {
         String print = "MyAnimeList ID: " + malId;
         print += "\nTitle: " + title;
@@ -74,6 +84,7 @@ public class Anime {
         for(String genre : genres) {
             print += "\n- " + genre;
         }
+        print += "\nUser score: " + userScore;
 
         return print;
     }
