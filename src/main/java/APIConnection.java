@@ -102,6 +102,7 @@ public class APIConnection {
                 for (JsonNode animeNode : dataNode) {
                     int malId = animeNode.path("mal_id").asInt();
                     String title = animeNode.path("title_english").asText();
+                    String japTitle = animeNode.path("title").asText();
                     double score = animeNode.path("score").asDouble();
                     String imageUrl = animeNode.path("images").path("jpg").path("image_url").asText();
                     String description = animeNode.path("synopsis").asText();
@@ -114,7 +115,7 @@ public class APIConnection {
                         }
                     }
 
-                    Anime anime = new Anime(malId, title, score, imageUrl, description, genres, 0);
+                    Anime anime = new Anime(malId, title, japTitle, score, imageUrl, description, genres, 0);
                     list.add(anime);
                 }
             }
@@ -168,6 +169,7 @@ public class APIConnection {
 
                 int malId = animeNode.path("mal_id").asInt();
                 String title = animeNode.path("title_english").asText();
+                String japTitle = animeNode.path("title").asText();
                 double score = animeNode.path("score").asDouble();
                 String imageUrl = animeNode.path("images").path("jpg").path("image_url").asText();
                 String description = animeNode.path("synopsis").asText();
@@ -180,7 +182,7 @@ public class APIConnection {
                     }
                 }
 
-                anime = new Anime(malId, title, score, imageUrl, description, genres, 0);
+                anime = new Anime(malId, title, japTitle, score, imageUrl, description, genres, 0);
             }
         } catch (Exception e) {
             logger.severe("There was an error while parsing data: " + e.getMessage());
