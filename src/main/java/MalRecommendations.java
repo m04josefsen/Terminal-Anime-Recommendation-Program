@@ -3,89 +3,79 @@ import java.util.*;
 public class MalRecommendations {
     private static List<RecommendedAnime> malRecommendations;
     private static APIConnection api;
-    private static List<Anime> watchedlist;
 
-    public static void main(String[] args) {
+    public static List<RecommendedAnime> main(List<Anime> inputWatchedlist) {
         api = new APIConnection();
         malRecommendations = new ArrayList<>();
+        List<Anime> watchedlist = inputWatchedlist;
 
-        Scanner s = new Scanner(System.in);
-        List<InputAnime> animelist = new ArrayList<>();
-
-        APIConnection api = new APIConnection();
-
-        String print = "Copy your Anime List from anilist.co and paste it under";
-        System.out.println(print);
-
-        boolean isActive = true;
-
-        while(isActive) {
-            String animeTitle = s.nextLine();
-
-            if(animeTitle.equals("END")) {
-                isActive = false;
-                continue;
-                //break;
-            }
-
-            double animeRating = Double.parseDouble(s.nextLine());
-            int episodeCount = Integer.parseInt(s.nextLine());
-            String animeFormat = s.nextLine();
-
-            InputAnime anime = new InputAnime(animeTitle, animeRating);
-            animelist.add(anime);
-        }
-
-        updateUsersAnimelist(animelist);
-
+        int count = 1;
         for(Anime anime : watchedlist) {
             getMalRecommendations(anime);
+            System.out.println(count + " / " + watchedlist.size() + " animes analyzed");
+            count++;
         }
+
+        malRecommendations.sort(Comparator.comparingDouble(RecommendedAnime::getCombinedScore).reversed());
+
+        List<RecommendedAnime> removedAnimes = new ArrayList<>();
+
+        for(RecommendedAnime anime : malRecommendations) {
+            for(Anime watchedAnime : watchedlist) {
+                if(anime.getTitle().equals(watchedAnime.getJapTitle())) {
+                    removedAnimes.add(anime);
+                }
+            }
+        }
+
+        malRecommendations.removeAll(removedAnimes);
 
         for(RecommendedAnime anime : malRecommendations) {
             System.out.println(anime);
             System.out.println();
         }
 
-    }
-
-    public static void updateUsersAnimelist(List<InputAnime> animelist) {
-        watchedlist = new ArrayList<>();
-
-        for(InputAnime anime : animelist) {
-            Anime newAnime = api.searchAnime(anime.getTitle());
-            if(newAnime != null) {
-                System.out.println(newAnime);
-                System.out.println();
-                newAnime.setUserScore(anime.getRating());
-
-                watchedlist.add(newAnime);
-            }
-        }
-        System.out.println("SIZE: " + watchedlist.size());
+        //TODO: burde kanskje limite til x size()
+        return malRecommendations;
     }
 
     public static void getMalRecommendations(Anime inAnime) {
-        //TODO: Må kanskje ta inn et objekt fordi trenger scoren du har gitt også fakk
+        try {
+            int delay = 1000;
+            Thread.sleep(delay);
 
-        APIConnection api = new APIConnection();
+            api = new APIConnection();
 
-        List<RecommendedAnime> recommendedAnimelist = api.fetchRecommendedAnimes(inAnime.getMalId());
+            List<RecommendedAnime> recommendedAnimelist = api.fetchRecommendedAnimes(inAnime.getMalId());
 
-        HashMap<Integer, Integer> indexMultiplier = indexMultiplierMap();
+            HashMap<Integer, Integer> indexMultiplier = indexMultiplierMap();
 
-        //TODO: må fikse hvis recommendedAnimeList har mindre enn 10
-        //TODO: Må også oppdatere eksiterende verdier hvis de finnes, dvs hvis haikyuu finnes fra før må jeg addere verdien
-        //TODO: hva hvis flere ting har like mange votes
+            //TODO: hva hvis flere ting har like mange votes
+            int i = 0;
+            while (i < 10 && i < recommendedAnimelist.size()) {
+                RecommendedAnime anime = recommendedAnimelist.get(i);
+                int multiplier = indexMultiplier.get(i);
+                anime.setCombinedScore(inAnime.getUserScore() * multiplier);
 
-        int i = 0;
-        while (i < 10 && i < recommendedAnimelist.size()) {
-            RecommendedAnime anime = recommendedAnimelist.get(i);
-            int multiplier = indexMultiplier.get(i);
-            anime.setCombinedScore(inAnime.getUserScore() * multiplier);
+                boolean found = false;
 
-            malRecommendations.add(anime);
-            i++;
+                for (RecommendedAnime a : malRecommendations) {
+                    if (a.getTitle().equals(anime.getTitle())) {
+                        a.setCombinedScore(a.getCombinedScore() + anime.getCombinedScore());
+                        a.setVotes(a.getVotes() + anime.getVotes());
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found) {
+                    malRecommendations.add(anime);
+                }
+                i++;
+
+            }
+        } catch (Exception e) {
+            System.out.println("LOG");
         }
     }
 
