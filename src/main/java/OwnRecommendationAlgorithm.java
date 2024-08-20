@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class OwnRecommendationAlgorithm {
@@ -47,43 +49,18 @@ public class OwnRecommendationAlgorithm {
     private static List<Genre> allGenres;
     private static List<RecommendedAnime> userRecommendations;
 
-    public static void main() {
-        /*
+    public static void main(List<InputAnime> inputWatchedlist) {
         initializeGenres();
 
-        Scanner s = new Scanner(System.in);
-        List<InputAnime> animelist = new ArrayList<>();
-
-        APIConnection api = new APIConnection();
-
-        String print = "Copy your Anime List from anilist.co and paste it under";
-        System.out.println(print);
+        List<InputAnime> watchedlist = inputWatchedlist;
 
         userRecommendations = new ArrayList<>();
 
-        boolean isActive = true;
 
-        while(isActive) {
-            String animeTitle = s.nextLine();
+        userRatings(watchedlist);
 
-            if(animeTitle.equals("END")) {
-                isActive = false;
-                continue;
-                //break;
-            }
-
-            double animeRating = Double.parseDouble(s.nextLine());
-            int episodeCount = Integer.parseInt(s.nextLine());
-            String animeFormat = s.nextLine();
-
-            InputAnime anime = new InputAnime(animeTitle, animeRating);
-            animelist.add(anime);
-        }
-
-        userRatings(animelist);
         addGenreScore();
 
-        //malRecommendations();
     }
 
     public static void userRatings(List<InputAnime> animelist) {
@@ -110,28 +87,10 @@ public class OwnRecommendationAlgorithm {
         }
         System.out.println("SIZE: " + watchedlist.size());
 
-         */
     }
-/*
+
     public static void recommendationAlgorithm() {
 
-    }
-
-    public static void malRecommendations(int malId) {
-        //TODO: Må kanskje ta inn et objekt fordi trenger scoren du har gitt også fakk
-
-        APIConnection api = new APIConnection();
-
-        List<RecommendedAnime> recommendedAnimelist = api.fetchRecommendedAnimes(malId);
-
-        //TODO: må fikse hvis recommendedAnimeList har mindre enn 10
-        //TODO: Må også oppdatere eksiterende verdier hvis de finnes, dvs hvis haikyuu finnes fra før må jeg addere verdien
-        //TODO: hva hvis flere ting har like mange votes
-
-        for(int i = 0; i < 10; i++) {
-            RecommendedAnime anime = recommendedAnimelist.get(i);
-            //anime.setCombinedScore(USERSCORE * );
-        }
     }
 
     public static void addGenreScore() {
@@ -233,6 +192,5 @@ public class OwnRecommendationAlgorithm {
         allGenres.add(josei);
     }
 
- */
 
 }
