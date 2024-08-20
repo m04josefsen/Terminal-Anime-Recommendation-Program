@@ -30,12 +30,25 @@ public class MalRecommendations {
 
         malRecommendations.removeAll(removedAnimes);
 
-        for(RecommendedAnime anime : malRecommendations) {
-            System.out.println(anime);
-            System.out.println();
+        if(malRecommendations.size() > 10) {
+            for(int i = 0; i < 10; i++) {
+                int counter = i + 1;
+                System.out.println("Number " + counter + " recommendation");
+                System.out.println(malRecommendations.get(i));
+                System.out.println();
+            }
+        }
+        else {
+            int counter = 1;
+            for(RecommendedAnime anime : malRecommendations) {
+                System.out.println("Number " + counter + " recommendation");
+                System.out.println(anime);
+                System.out.println();
+                counter++;
+            }
         }
 
-        //TODO: burde kanskje limite til x size()
+        //TODO: burde kanskje limite til x size(), og order by Votes hvis combined score er det samme
         return malRecommendations;
     }
 
