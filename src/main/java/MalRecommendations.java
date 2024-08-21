@@ -10,6 +10,8 @@ public class MalRecommendations {
         List<Anime> watchedlist = inputWatchedlist;
 
         int count = 1;
+
+        long time = System.currentTimeMillis();
         for(Anime anime : watchedlist) {
             getMalRecommendations(anime);
             System.out.println(count + " / " + watchedlist.size() + " animes analyzed");
@@ -47,6 +49,10 @@ public class MalRecommendations {
                 counter++;
             }
         }
+
+        time = (System.currentTimeMillis() - time) / 1000;
+        System.out.println("Time taken: " + time + " seconds");
+
 
         //TODO: burde kanskje limite til x size(), og order by Votes hvis combined score er det samme
         return malRecommendations;

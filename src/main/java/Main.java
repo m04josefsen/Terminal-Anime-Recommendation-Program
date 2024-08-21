@@ -45,7 +45,7 @@ public class Main {
             if(line.equals("1")) {
                 MalRecommendations.main(watchedlist);
             } else if(line.equals("2")) {
-                OwnRecommendationAlgorithm.main();
+                OwnRecommendationAlgorithm.main(inputAnimelist);
             } else if(line.equals("3")) {
                 isActive = false;
                 System.out.println("Thank you for using the program c:");
@@ -58,6 +58,7 @@ public class Main {
     public static void updateUsersAnimelist(List<InputAnime> InputAnimelist) {
         watchedlist = new ArrayList<>();
 
+        long time = System.currentTimeMillis();
         int count = 1;
         for(InputAnime anime : InputAnimelist) {
             Anime newAnime = api.searchAnime(anime.getTitle());
@@ -72,5 +73,7 @@ public class Main {
                 count++;
             }
         }
+        time = (System.currentTimeMillis() - time) / 1000;
+        System.out.println("Time taken: " + time + " seconds");
     }
 }
