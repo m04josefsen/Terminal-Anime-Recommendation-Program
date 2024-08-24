@@ -3,50 +3,6 @@ import java.util.Comparator;
 import java.util.List;
 
 public class OwnRecommendationAlgorithm {
-    private static Genre action;
-    private static Genre adventure;
-    private static Genre cars;
-    private static Genre comedy;
-    private static Genre dementia;
-    private static Genre demons;
-    private static Genre mystery;
-    private static Genre drama;
-    private static Genre ecchi;
-    private static Genre fantasy;
-    private static Genre game;
-    private static Genre hentai;
-    private static Genre historical;
-    private static Genre horror;
-    private static Genre kids;
-    private static Genre magic;
-    private static Genre martialArts;
-    private static Genre mecha;
-    private static Genre music;
-    private static Genre parody;
-    private static Genre samurai;
-    private static Genre romance;
-    private static Genre school;
-    private static Genre sciFi;
-    private static Genre shoujo;
-    private static Genre shoujoAi;
-    private static Genre shounen;
-    private static Genre shounenAi;
-    private static Genre space;
-    private static Genre sports;
-    private static Genre superPower;
-    private static Genre vampire;
-    private static Genre yaoi;
-    private static Genre yuri;
-    private static Genre harem;
-    private static Genre sliceOfLife;
-    private static Genre supernatural;
-    private static Genre military;
-    private static Genre police;
-    private static Genre psychological;
-    private static Genre thriller;
-    private static Genre seinen;
-    private static Genre josei;
-
     private static List<Genre> allGenres;
     private static List<Anime> recommendedList;
     private static APIConnection api;
@@ -62,16 +18,29 @@ public class OwnRecommendationAlgorithm {
         findingGenreScore(watchedlist);
         recommendationAlgorithm();
 
-        /*
-        for(Genre g : allGenres) {
-            System.out.println(g);
+        System.out.println("Your top 3 genres are: ");
+        for(int i = 0; i < 3; i++) {
+            System.out.println(allGenres.get(i));
             System.out.println();
         }
-         */
 
-        for(Anime a : recommendedList) {
-            System.out.println(a);
-            System.out.println();
+        System.out.println("Your recommended animes are: ");
+        int counter = 1;
+        if(recommendedList.size() > 10) {
+            for(int i = 0; i < 10; i++) {
+                System.out.println("Number " + counter + " recommendation");
+                System.out.println(recommendedList.get(i));
+                System.out.println();
+                counter++;
+            }
+        }
+        else {
+            for(Anime anime : recommendedList) {
+                System.out.println("Number " + counter + " recommendation");
+                System.out.println(anime);
+                System.out.println();
+                counter++;
+            }
         }
 
         time = (System.currentTimeMillis() - time) / 1000;
@@ -139,49 +108,49 @@ public class OwnRecommendationAlgorithm {
     public static void initializeGenres() {
         allGenres = new ArrayList<>();
 
-        action = new Genre("Action", "1", 0, 0.0);
-        adventure = new Genre("Adventure", "2", 0, 0.0);
-        cars = new Genre("Cars", "3", 0, 0.0);
-        comedy = new Genre("Comedy", "4", 0, 0.0);
-        dementia = new Genre("Dementia", "5", 0, 0.0);
-        demons = new Genre("Demons", "6", 0, 0.0);
-        mystery = new Genre("Mystery", "7", 0, 0.0);
-        drama = new Genre("Drama", "8", 0, 0.0);
-        ecchi = new Genre("Ecchi", "9", 0, 0.0);
-        fantasy = new Genre("Fantasy", "10", 0, 0.0);
-        game = new Genre("Game", "11", 0, 0.0);
-        hentai = new Genre("Hentai", "12", 0, 0.0);
-        historical = new Genre("Historical", "13", 0, 0.0);
-        horror = new Genre("Horror", "14", 0, 0.0);
-        kids = new Genre("Kids", "15", 0, 0.0);
-        magic = new Genre("Magic", "16", 0, 0.0);
-        martialArts = new Genre("Martial Arts", "17", 0, 0.0);
-        mecha = new Genre("Mecha", "18", 0, 0.0);
-        music = new Genre("Music", "19", 0, 0.0);
-        parody = new Genre("Parody", "20", 0, 0.0);
-        samurai = new Genre("Samurai", "21", 0, 0.0);
-        romance = new Genre("Romance", "22", 0, 0.0);
-        school = new Genre("School", "23", 0, 0.0);
-        sciFi = new Genre("Sci-Fi", "24", 0, 0.0);
-        shoujo = new Genre("Shoujo", "25", 0, 0.0);
-        shoujoAi = new Genre("Shoujo Ai", "26", 0, 0.0);
-        shounen = new Genre("Shounen", "27", 0, 0.0);
-        shounenAi = new Genre("Shounen Ai", "28", 0, 0.0);
-        space = new Genre("Space", "29", 0, 0.0);
-        sports = new Genre("Sports", "30", 0, 0.0);
-        superPower = new Genre("Super Power", "31", 0, 0.0);
-        vampire = new Genre("Vampire", "32", 0, 0.0);
-        yaoi = new Genre("Yaoi", "33", 0, 0.0);
-        yuri = new Genre("Yuri", "34", 0, 0.0);
-        harem = new Genre("Harem", "35", 0, 0.0);
-        sliceOfLife = new Genre("Slice of Life", "36", 0, 0.0);
-        supernatural = new Genre("Supernatural", "37", 0, 0.0);
-        military = new Genre("Military", "38", 0, 0.0);
-        police = new Genre("Police", "39", 0, 0.0);
-        psychological = new Genre("Psychological", "40", 0, 0.0);
-        thriller = new Genre("Thriller", "41", 0, 0.0);
-        seinen = new Genre("Seinen", "42", 0, 0.0);
-        josei = new Genre("Josei", "43", 0, 0.0);
+        Genre action = new Genre("Action", "1", 0, 0.0);
+        Genre adventure = new Genre("Adventure", "2", 0, 0.0);
+        Genre cars = new Genre("Cars", "3", 0, 0.0);
+        Genre comedy = new Genre("Comedy", "4", 0, 0.0);
+        Genre dementia = new Genre("Dementia", "5", 0, 0.0);
+        Genre demons = new Genre("Demons", "6", 0, 0.0);
+        Genre mystery = new Genre("Mystery", "7", 0, 0.0);
+        Genre drama = new Genre("Drama", "8", 0, 0.0);
+        Genre ecchi = new Genre("Ecchi", "9", 0, 0.0);
+        Genre fantasy = new Genre("Fantasy", "10", 0, 0.0);
+        Genre game = new Genre("Game", "11", 0, 0.0);
+        Genre hentai = new Genre("Hentai", "12", 0, 0.0);
+        Genre historical = new Genre("Historical", "13", 0, 0.0);
+        Genre horror = new Genre("Horror", "14", 0, 0.0);
+        Genre kids = new Genre("Kids", "15", 0, 0.0);
+        Genre magic = new Genre("Magic", "16", 0, 0.0);
+        Genre martialArts = new Genre("Martial Arts", "17", 0, 0.0);
+        Genre mecha = new Genre("Mecha", "18", 0, 0.0);
+        Genre music = new Genre("Music", "19", 0, 0.0);
+        Genre parody = new Genre("Parody", "20", 0, 0.0);
+        Genre samurai = new Genre("Samurai", "21", 0, 0.0);
+        Genre romance = new Genre("Romance", "22", 0, 0.0);
+        Genre school = new Genre("School", "23", 0, 0.0);
+        Genre sciFi = new Genre("Sci-Fi", "24", 0, 0.0);
+        Genre shoujo = new Genre("Shoujo", "25", 0, 0.0);
+        Genre shoujoAi = new Genre("Shoujo Ai", "26", 0, 0.0);
+        Genre shounen = new Genre("Shounen", "27", 0, 0.0);
+        Genre shounenAi = new Genre("Shounen Ai", "28", 0, 0.0);
+        Genre space = new Genre("Space", "29", 0, 0.0);
+        Genre sports = new Genre("Sports", "30", 0, 0.0);
+        Genre superPower = new Genre("Super Power", "31", 0, 0.0);
+        Genre vampire = new Genre("Vampire", "32", 0, 0.0);
+        Genre yaoi = new Genre("Yaoi", "33", 0, 0.0);
+        Genre yuri = new Genre("Yuri", "34", 0, 0.0);
+        Genre harem = new Genre("Harem", "35", 0, 0.0);
+        Genre sliceOfLife = new Genre("Slice of Life", "36", 0, 0.0);
+        Genre supernatural = new Genre("Supernatural", "37", 0, 0.0);
+        Genre military = new Genre("Military", "38", 0, 0.0);
+        Genre police = new Genre("Police", "39", 0, 0.0);
+        Genre psychological = new Genre("Psychological", "40", 0, 0.0);
+        Genre thriller = new Genre("Thriller", "41", 0, 0.0);
+        Genre seinen = new Genre("Seinen", "42", 0, 0.0);
+        Genre josei = new Genre("Josei", "43", 0, 0.0);
 
         allGenres.add(action);
         allGenres.add(adventure);
