@@ -48,39 +48,53 @@ public class OwnRecommendationAlgorithm {
     private static Genre josei;
 
     private static List<Genre> allGenres;
-    private static List<RecommendedAnime> userRecommendations;
+    private static List<Anime> recommendedList;
     private static APIConnection api;
 
-    public static void main(List<InputAnime> inputWatchedlist) {
+    public static List<Anime> main(List<InputAnime> inputWatchedlist) {
+        long time = System.currentTimeMillis();
+
         initializeGenres();
-
+        api = new APIConnection();
         List<InputAnime> watchedlist = inputWatchedlist;
+        recommendedList = new ArrayList<>();
 
-        userRecommendations = new ArrayList<>();
-
-        userRatings(watchedlist);
-        addGenreScore();
+        findingGenreScore(watchedlist);
         recommendationAlgorithm();
 
+        /*
         for(Genre g : allGenres) {
             System.out.println(g);
             System.out.println();
         }
+         */
+
+        for(Anime a : recommendedList) {
+            System.out.println(a);
+            System.out.println();
+        }
+
+        time = (System.currentTimeMillis() - time) / 1000;
+        System.out.println("Time taken: " + time + " seconds");
+
+        return recommendedList;
     }
 
-    public static void userRatings(List<InputAnime> animelist) {
-        api = new APIConnection();
+    public static void findingGenreScore(List<InputAnime> animelist) {
         List<Anime> watchedlist = new ArrayList<>();
 
         int count = 1;
         for(InputAnime anime : animelist) {
             Anime newAnime = api.searchAnime(anime.getTitle());
+
             if(newAnime != null) {
                 System.out.println(count + " / " + animelist.size() + " animes analyzed");
                 count++;
 
                 watchedlist.add(newAnime);
                 List<String> genres = newAnime.getGenres();
+
+                // Adding to the genre score from the users rating
                 for(String genre : genres) {
                     for(Genre g : allGenres) {
                         if(genre.equals(g.getGenreName())) {
@@ -91,30 +105,37 @@ public class OwnRecommendationAlgorithm {
                 }
             }
         }
+
+        addGenreScore();
     }
 
     public static void recommendationAlgorithm() {
         // Søk etter underrated animes, gjennom rating vs antall anmeldelser
         // Sortert basert på score
         // Kanskje søk på "action" sortert på score, top 10 under x anmeldelser
-        api = new APIConnection();
 
         for(int i = 0; i < 3; i++) {
             Genre genre = allGenres.get(i);
+            List<Anime> templist = api.fetchTopAnimesByGenre(genre.getGenreCode(), 25);
 
-            // TODO: må hente antall users som har sett en Anime (for å gi "underrated")
-            List<Anime> list = api.fetchTopAnimesByGenre(genre.getGenreCode(), 25);
-
+            for(Anime a : templist) {
+                if(a.getMembers() <= 500000) { //TODO: Finn en riktig value, kun temp holder value
+                    recommendedList.add(a);
+                }
+            }
         }
     }
 
+    // Calculating the genre score, 0 - 10, and adding to the genre objects
     public static void addGenreScore() {
         for(Genre g : allGenres) {
             g.setGenreScore(g.getCollectiveRating() / (g.getGenreCount() + 1));
         }
-        allGenres.sort(Comparator.comparingDouble(Genre::getGenreScore).reversed());
+        allGenres.sort(Comparator
+                .comparingDouble(Genre::getGenreScore).reversed());
     }
 
+    // Intializing genres and adding them to a list
     public static void initializeGenres() {
         allGenres = new ArrayList<>();
 

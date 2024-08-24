@@ -38,7 +38,9 @@ public class Main {
         isActive = true;
 
         while(isActive) {
-            System.out.println("Animelist scanned propertly\n-Press 1 to use the My Anime List recommendation system\n-Press 2 to use a customized recommendation system\n-Press 3 to end the program");
+            System.out.println("Animelist scanned propertly" +
+                    "\n-Press 1 to use the My Anime List recommendation system" +
+                    "\n-Press 2 to use a customized recommendation system\n-Press 3 to end the program");
 
             String line = s.nextLine();
 
@@ -55,6 +57,7 @@ public class Main {
         }
     }
 
+    // Method to update the users animes from InputAnime object to Anime object
     public static void updateUsersAnimelist(List<InputAnime> InputAnimelist) {
         watchedlist = new ArrayList<>();
 
@@ -63,10 +66,7 @@ public class Main {
         for(InputAnime anime : InputAnimelist) {
             Anime newAnime = api.searchAnime(anime.getTitle());
             if(newAnime != null) {
-                //System.out.println(newAnime);
-                //System.out.println();
                 newAnime.setUserScore(anime.getRating());
-
                 watchedlist.add(newAnime);
 
                 System.out.println(count + " / " + InputAnimelist.size() + " detected");
