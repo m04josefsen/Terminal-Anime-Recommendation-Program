@@ -9,6 +9,7 @@ public class Anime {
     private String description;
     private List<String> genres;
     private double userScore;
+    private int members;
 
     public Anime(int malId, String title, String japTitle, double score, String imageUrl, String description, List<String> genres, double userScore) {
         this.malId = malId;
@@ -84,6 +85,14 @@ public class Anime {
         this.userScore = userScore;
     }
 
+    public int getMembers() {
+        return members;
+    }
+
+    public void setMembers(int members) {
+        this.members = members;
+    }
+
     public String toString() {
         String print = "MyAnimeList ID: " + malId;
         print += "\nTitle: " + title;
@@ -96,6 +105,7 @@ public class Anime {
             print += "\n- " + genre;
         }
         print += "\nUser score: " + userScore;
+        print += "\nMembers: " + members;
 
         return print;
     }

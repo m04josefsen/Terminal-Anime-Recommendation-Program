@@ -80,7 +80,7 @@ public class APIConnection {
 
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println(response.body());
+            //System.out.println(response.body());
             list = parseAnimeList(response.body());
         } catch (Exception e) {
             logger.severe("There was an error while fetching data: " + e.getMessage());
@@ -115,7 +115,11 @@ public class APIConnection {
                         }
                     }
 
+                    int members = animeNode.path("members").asInt();
+
                     Anime anime = new Anime(malId, title, japTitle, score, imageUrl, description, genres, 0);
+                    anime.setMembers(members);
+
                     list.add(anime);
                 }
             }
