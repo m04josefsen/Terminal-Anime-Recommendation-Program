@@ -46,8 +46,10 @@ public class OwnRecommendationAlgorithm {
     private static Genre thriller;
     private static Genre seinen;
     private static Genre josei;
+
     private static List<Genre> allGenres;
     private static List<RecommendedAnime> userRecommendations;
+    private static APIConnection api;
 
     public static void main(List<InputAnime> inputWatchedlist) {
         initializeGenres();
@@ -56,22 +58,26 @@ public class OwnRecommendationAlgorithm {
 
         userRecommendations = new ArrayList<>();
 
-
         userRatings(watchedlist);
-
         addGenreScore();
+        recommendationAlgorithm();
 
+        for(Genre g : allGenres) {
+            System.out.println(g);
+            System.out.println();
+        }
     }
 
     public static void userRatings(List<InputAnime> animelist) {
-        APIConnection api = new APIConnection();
+        api = new APIConnection();
         List<Anime> watchedlist = new ArrayList<>();
 
+        int count = 1;
         for(InputAnime anime : animelist) {
             Anime newAnime = api.searchAnime(anime.getTitle());
             if(newAnime != null) {
-                System.out.println(newAnime);
-                System.out.println();
+                System.out.println(count + " / " + animelist.size() + " animes analyzed");
+                count++;
 
                 watchedlist.add(newAnime);
                 List<String> genres = newAnime.getGenres();
@@ -85,12 +91,21 @@ public class OwnRecommendationAlgorithm {
                 }
             }
         }
-        System.out.println("SIZE: " + watchedlist.size());
-
     }
 
     public static void recommendationAlgorithm() {
+        // Søk etter underrated animes, gjennom rating vs antall anmeldelser
+        // Sortert basert på score
+        // Kanskje søk på "action" sortert på score, top 10 under x anmeldelser
+        api = new APIConnection();
 
+        for(int i = 0; i < 3; i++) {
+            Genre genre = allGenres.get(i);
+
+            // TODO: må hente antall users som har sett en Anime (for å gi "underrated")
+            List<Anime> list = api.fetchTopAnimesByGenre(genre.getGenreCode(), 25);
+
+        }
     }
 
     public static void addGenreScore() {
