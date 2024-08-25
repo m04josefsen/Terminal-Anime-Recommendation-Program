@@ -1,65 +1,27 @@
 import java.util.List;
 
-public class Anime {
-    private int malId;
-    private String title;
+public class Anime extends BaseAnime {
     private String japTitle;
-    private double score;
-    private String imageUrl;
     private String description;
     private List<String> genres;
     private double userScore;
     private int members;
 
     public Anime(int malId, String title, String japTitle, double score, String imageUrl, String description, List<String> genres, double userScore) {
-        this.malId = malId;
-        this.title = title;
+        super(malId, title, imageUrl, score);
         this.japTitle = japTitle;
-        this.score = score;
-        this.imageUrl = imageUrl;
         this.description = description;
         this.genres = genres;
         this.userScore = userScore;
     }
 
-    public int getMalId() {
-        return malId;
-    }
-
-    public void setMalId(int malId) {
-        this.malId = malId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
+    // Getters and setters for additional fields
     public String getJapTitle() {
         return japTitle;
     }
 
     public void setJapTitle(String japTitle) {
         this.japTitle = japTitle;
-    }
-
-    public double getScore() {
-        return score;
-    }
-
-    public void setScore(double score) {
-        this.score = score;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
     }
 
     public String getDescription() {
@@ -73,6 +35,7 @@ public class Anime {
     public List<String> getGenres() {
         return genres;
     }
+
     public void setGenres(List<String> genres) {
         this.genres = genres;
     }
@@ -94,20 +57,19 @@ public class Anime {
     }
 
     public String toString() {
-        String print = "MyAnimeList ID: " + malId;
-        print += "\nTitle: " + title;
-        print += "\nJapanese Title: " + japTitle;
-        print += "\nScore: " + score;
-        print += "\nImageUrl: " + imageUrl;
-        print += "\nDescription: " + description;
+        String print = "MyAnimeList ID: " + getMalId();
+        print += "\nTitle: " + getTitle();
+        print += "\nJapanese Title: " + getJapTitle();
+        print += "\nScore: " + getScore();
+        print += "\nImageUrl: " + getImageUrl();
+        print += "\nDescription: " + getDescription();
         print += "\nGenres: ";
-        for(String genre : genres) {
+        for(String genre : getGenres()) {
             print += "\n- " + genre;
         }
-        print += "\nUser score: " + userScore;
-        print += "\nMembers: " + members;
+        print += "\nUser score: " + getUserScore();
+        print += "\nMembers: " + getMembers();
 
         return print;
     }
 }
-

@@ -24,8 +24,9 @@ public class InputAnime {
     }
 
     public String toString() {
-        String print = "Anime title: " + title;
-        print += "\nRating: " + rating;
+        String print = "Anime title: " + getTitle();
+        print += "\nRating: " + getRating();
+
         return print;
     }
 }

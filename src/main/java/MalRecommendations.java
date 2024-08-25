@@ -26,8 +26,7 @@ public class MalRecommendations {
         }
 
         malRecommendations.sort(Comparator
-                .comparingDouble(RecommendedAnime::getCombinedScore).reversed()
-                .thenComparingInt(RecommendedAnime::getVotes).reversed());
+                .comparingDouble(RecommendedAnime::getCombinedScore).reversed());
 
         removeDuplicateAnimes();
 

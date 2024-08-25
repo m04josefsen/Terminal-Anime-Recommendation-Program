@@ -1,42 +1,10 @@
-import java.util.List;
-
-public class RecommendedAnime {
-    private int malId;
-    private String title;
-    private String imageUrl;
+public class RecommendedAnime extends BaseAnime {
     private int votes;
     private double combinedScore;
 
     public RecommendedAnime(int malId, String title, String imageUrl, int votes, double combinedScore) {
-        this.malId = malId;
-        this.title = title;
-        this.imageUrl = imageUrl;
+        super(malId, title, imageUrl, combinedScore);
         this.votes = votes;
-        this.combinedScore = combinedScore;
-    }
-
-    public int getMalId() {
-        return malId;
-    }
-
-    public void setMalId(int malId) {
-        this.malId = malId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
     }
 
     public int getVotes() {
@@ -56,11 +24,11 @@ public class RecommendedAnime {
     }
 
     public String toString() {
-        String print = "MyAnimeList ID: " + malId;
-        print += "\nTitle: " + title;
-        print += "\nImageUrl: " + imageUrl;
-        print += "\nVotes: " + votes;
-        print += "\nCombined Score: " + combinedScore;
+        String print = "MyAnimeList ID: " + getMalId();
+        print += "\nTitle: " + getTitle();
+        print += "\nImageUrl: " + getImageUrl();
+        print += "\nVotes: " + getVotes();
+        print += "\nCombined Score: " + getCombinedScore();
 
         return print;
     }
