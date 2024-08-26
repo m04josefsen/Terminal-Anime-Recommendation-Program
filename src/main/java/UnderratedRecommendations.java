@@ -1,8 +1,9 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class OwnRecommendationAlgorithm {
+public class UnderratedRecommendations {
     private static List<Genre> allGenres;
     private static List<Anime> recommendedList;
     private static APIConnection api;
@@ -17,6 +18,9 @@ public class OwnRecommendationAlgorithm {
 
         findingGenreScore(watchedlist);
         recommendationAlgorithm();
+
+        // Randomizing the list
+        Collections.shuffle(recommendedList);
 
         System.out.println("Your top 3 genres are: ");
         for(int i = 0; i < 3; i++) {
@@ -79,16 +83,14 @@ public class OwnRecommendationAlgorithm {
     }
 
     public static void recommendationAlgorithm() {
-        // Søk etter underrated animes, gjennom rating vs antall anmeldelser
-        // Sortert basert på score
-        // Kanskje søk på "action" sortert på score, top 10 under x anmeldelser
+        final int MAXMEMBERS = 300000;
 
         for(int i = 0; i < 3; i++) {
             Genre genre = allGenres.get(i);
             List<Anime> templist = api.fetchTopAnimesByGenre(genre.getGenreCode(), 25);
 
             for(Anime a : templist) {
-                if(a.getMembers() <= 500000) { //TODO: Finn en riktig value, kun temp holder value
+                if(a.getMembers() <= MAXMEMBERS) {
                     recommendedList.add(a);
                 }
             }

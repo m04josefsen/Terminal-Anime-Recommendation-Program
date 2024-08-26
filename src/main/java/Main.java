@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -40,14 +39,15 @@ public class Main {
         while(isActive) {
             System.out.println("Animelist scanned propertly" +
                     "\n-Press 1 to use the My Anime List recommendation system" +
-                    "\n-Press 2 to use a customized recommendation system\n-Press 3 to end the program");
+                    "\n-Press 2 to use a customized recommendation system for underrated animes" +
+                    "\n-Press 3 to end the program");
 
             String line = s.nextLine();
 
             if(line.equals("1")) {
                 MalRecommendations.main(watchedlist);
             } else if(line.equals("2")) {
-                OwnRecommendationAlgorithm.main(inputAnimelist);
+                UnderratedRecommendations.main(inputAnimelist);
             } else if(line.equals("3")) {
                 isActive = false;
                 System.out.println("Thank you for using the program c:");
