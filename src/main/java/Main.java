@@ -20,18 +20,23 @@ public class Main {
         while(isActive) {
             String animeTitle = s.nextLine();
 
-            if(animeTitle.equals("END")) {
+            if(animeTitle.isEmpty()) {
                 isActive = false;
-                continue;
+                break;
             }
-
+            if (!s.hasNextLine()) break;
             double animeRating = Double.parseDouble(s.nextLine());
+
+            if (!s.hasNextLine()) break;
             int episodeCount = Integer.parseInt(s.nextLine());
+
+            if (!s.hasNextLine()) break;
             String animeFormat = s.nextLine();
 
             InputAnime anime = new InputAnime(animeTitle, animeRating);
             inputAnimelist.add(anime);
         }
+        System.out.println("Detection finished");
 
         updateUsersAnimelist(inputAnimelist);
         isActive = true;
