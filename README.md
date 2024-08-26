@@ -26,9 +26,9 @@ The **Terminal Anime Recommendation Program** is a Java-based application design
 
 ## Video Demo
 
-A video demonstrating the Terminal Anime Recommendation Program in action is available [here](#).
+A video demonstrating the Terminal Anime Recommendation Program in action is available.
 
-*(Please replace the link with the actual video URL)*
+[![Terminal Anime Recommendation Program - Preview](https://img.youtube.com/vi/aGnMzNyztiU/0.jpg)](https://www.youtube.com/watch?v=aGnMzNyztiU)
 
 ---
 
