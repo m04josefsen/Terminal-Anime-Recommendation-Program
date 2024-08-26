@@ -42,4 +42,12 @@ public class BaseAnime {
     public void setScore(double score) {
         this.score = score;
     }
+
+    public String toString() {
+        String print = "MyAnimeList ID: " + getMalId();
+        print += "\nTitle: " + getTitle();
+        print += "\nImageUrl: " + getImageUrl();
+
+        return print;
+    }
 }

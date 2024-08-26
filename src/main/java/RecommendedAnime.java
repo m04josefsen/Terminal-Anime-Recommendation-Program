@@ -24,9 +24,7 @@ public class RecommendedAnime extends BaseAnime {
     }
 
     public String toString() {
-        String print = "MyAnimeList ID: " + getMalId();
-        print += "\nTitle: " + getTitle();
-        print += "\nImageUrl: " + getImageUrl();
+        String print = super.toString();
         print += "\nVotes: " + getVotes();
         print += "\nCombined Score: " + getCombinedScore();
 

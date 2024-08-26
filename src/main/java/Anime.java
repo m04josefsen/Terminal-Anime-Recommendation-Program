@@ -57,19 +57,10 @@ public class Anime extends BaseAnime {
     }
 
     public String toString() {
-        String print = "MyAnimeList ID: " + getMalId();
-        print += "\nTitle: " + getTitle();
-        print += "\nJapanese Title: " + getJapTitle();
-        print += "\nScore: " + getScore();
-        print += "\nImageUrl: " + getImageUrl();
-        print += "\nDescription: " + getDescription();
-        print += "\nGenres: ";
-        for(String genre : getGenres()) {
-            print += "\n- " + genre;
-        }
-        print += "\nUser score: " + getUserScore();
+        String print = super.toString();
+        print += "Score: " + getScore();
         print += "\nMembers: " + getMembers();
-
         return print;
     }
+
 }
