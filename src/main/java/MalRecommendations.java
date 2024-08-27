@@ -8,6 +8,7 @@ public class MalRecommendations {
     private static Logger logger;
 
     public static List<RecommendedAnime> main(List<Anime> inputWatchedlist) {
+        // If the user has already called the main function, the analysis does not need to run again
         if(malRecommendations != null) {
             printResult();
             return malRecommendations;
@@ -29,40 +30,25 @@ public class MalRecommendations {
             System.out.println(count + " / " + watchedlist.size() + " animes analyzed");
             count++;
         }
+        System.out.println(Main.divider());
 
         malRecommendations.sort(Comparator
                 .comparingDouble(RecommendedAnime::getCombinedScore).reversed());
 
         removeDuplicateAnimes();
-        /*
-        int counter = 1;
-        if(malRecommendations.size() > 10) {
-            for(int i = 0; i < 10; i++) {
-                System.out.println("Number " + counter + " recommendation");
-                System.out.println(malRecommendations.get(i));
-                System.out.println();
-                counter++;
-            }
-        }
-        else {
-            for(RecommendedAnime anime : malRecommendations) {
-                System.out.println("Number " + counter + " recommendation");
-                System.out.println(anime);
-                System.out.println();
-                counter++;
-            }
-        }
-        */
+
         printResult();
 
         time = (System.currentTimeMillis() - time) / 1000;
         System.out.println("Time taken: " + time + " seconds");
+        System.out.println(Main.divider());
 
         return malRecommendations;
     }
 
     public static void printResult() {
         System.out.println("Your recommended animes are: ");
+        System.out.println();
 
         int counter = 1;
         if(malRecommendations.size() > 10) {

@@ -80,5 +80,10 @@ public class Main {
         }
         time = (System.currentTimeMillis() - time) / 1000;
         System.out.println("Time taken: " + time + " seconds");
+        System.out.println(divider());
+    }
+
+    public static String divider() {
+        return "----------";
     }
 }

@@ -9,6 +9,7 @@ public class UnderratedRecommendations {
     private static APIConnection api;
 
     public static List<Anime> main(List<InputAnime> inputWatchedlist) {
+        // If the user has already called the main function, the analysis does not need to run again
         if(recommendedList != null) {
             printResult();
             return recommendedList;
@@ -31,18 +32,22 @@ public class UnderratedRecommendations {
 
         time = (System.currentTimeMillis() - time) / 1000;
         System.out.println("Time taken: " + time + " seconds");
+        System.out.println(Main.divider());
 
         return recommendedList;
     }
 
     public static void printResult() {
         System.out.println("Your top 3 genres are: ");
+        System.out.println();
         for(int i = 0; i < 3; i++) {
             System.out.println(allGenres.get(i));
             System.out.println();
         }
+        System.out.println(Main.divider());
 
         System.out.println("Your recommended animes are: ");
+        System.out.println();
         int counter = 1;
         if(recommendedList.size() > 10) {
             for(int i = 0; i < 10; i++) {
@@ -87,6 +92,7 @@ public class UnderratedRecommendations {
                 }
             }
         }
+        System.out.println(Main.divider());
 
         addGenreScore();
     }
@@ -99,7 +105,7 @@ public class UnderratedRecommendations {
             List<Anime> templist = api.fetchTopAnimesByGenre(genre.getGenreCode(), 25);
 
             for(Anime a : templist) {
-                if(a.getMembers() <= MAXMEMBERS) {
+                if(a.getMembers() <= MAXMEMBERS && a.getTitle() != null) {
                     recommendedList.add(a);
                 }
             }

@@ -58,7 +58,7 @@ public class Anime extends BaseAnime {
 
     public String toString() {
         String print = super.toString();
-        print += "Score: " + getScore();
+        print += "\nScore: " + getScore();
         print += "\nMembers: " + getMembers();
         return print;
     }
