@@ -8,6 +8,11 @@ public class MalRecommendations {
     private static Logger logger;
 
     public static List<RecommendedAnime> main(List<Anime> inputWatchedlist) {
+        if(malRecommendations != null) {
+            printResult();
+            return malRecommendations;
+        }
+
         long time = System.currentTimeMillis();
 
         logger = Logger.getLogger(MalRecommendations.class.getName());
@@ -29,6 +34,35 @@ public class MalRecommendations {
                 .comparingDouble(RecommendedAnime::getCombinedScore).reversed());
 
         removeDuplicateAnimes();
+        /*
+        int counter = 1;
+        if(malRecommendations.size() > 10) {
+            for(int i = 0; i < 10; i++) {
+                System.out.println("Number " + counter + " recommendation");
+                System.out.println(malRecommendations.get(i));
+                System.out.println();
+                counter++;
+            }
+        }
+        else {
+            for(RecommendedAnime anime : malRecommendations) {
+                System.out.println("Number " + counter + " recommendation");
+                System.out.println(anime);
+                System.out.println();
+                counter++;
+            }
+        }
+        */
+        printResult();
+
+        time = (System.currentTimeMillis() - time) / 1000;
+        System.out.println("Time taken: " + time + " seconds");
+
+        return malRecommendations;
+    }
+
+    public static void printResult() {
+        System.out.println("Your recommended animes are: ");
 
         int counter = 1;
         if(malRecommendations.size() > 10) {
@@ -47,11 +81,6 @@ public class MalRecommendations {
                 counter++;
             }
         }
-
-        time = (System.currentTimeMillis() - time) / 1000;
-        System.out.println("Time taken: " + time + " seconds");
-
-        return malRecommendations;
     }
 
     // Method to get the recommendations for each anime the user has watched

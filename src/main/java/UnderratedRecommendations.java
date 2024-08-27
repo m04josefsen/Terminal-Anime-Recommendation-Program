@@ -9,6 +9,11 @@ public class UnderratedRecommendations {
     private static APIConnection api;
 
     public static List<Anime> main(List<InputAnime> inputWatchedlist) {
+        if(recommendedList != null) {
+            printResult();
+            return recommendedList;
+        }
+
         long time = System.currentTimeMillis();
 
         initializeGenres();
@@ -22,6 +27,15 @@ public class UnderratedRecommendations {
         // Randomizing the list
         Collections.shuffle(recommendedList);
 
+        printResult();
+
+        time = (System.currentTimeMillis() - time) / 1000;
+        System.out.println("Time taken: " + time + " seconds");
+
+        return recommendedList;
+    }
+
+    public static void printResult() {
         System.out.println("Your top 3 genres are: ");
         for(int i = 0; i < 3; i++) {
             System.out.println(allGenres.get(i));
@@ -46,11 +60,6 @@ public class UnderratedRecommendations {
                 counter++;
             }
         }
-
-        time = (System.currentTimeMillis() - time) / 1000;
-        System.out.println("Time taken: " + time + " seconds");
-
-        return recommendedList;
     }
 
     public static void findingGenreScore(List<InputAnime> animelist) {
