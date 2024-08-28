@@ -38,6 +38,8 @@ public class UnderratedRecommendations {
     }
 
     public static void printResult() {
+        String malLink = "https://myanimelist.net/anime/";
+
         System.out.println("Your top 3 genres are: ");
         System.out.println();
         for(int i = 0; i < 3; i++) {
@@ -53,7 +55,7 @@ public class UnderratedRecommendations {
             for(int i = 0; i < 10; i++) {
                 System.out.println("Number " + counter + " recommendation");
                 System.out.println(recommendedList.get(i));
-                System.out.println();
+                System.out.println("MyAnimeList link: " + malLink + recommendedList.get(i).getMalId());
                 counter++;
             }
         }
@@ -61,6 +63,7 @@ public class UnderratedRecommendations {
             for(Anime anime : recommendedList) {
                 System.out.println("Number " + counter + " recommendation");
                 System.out.println(anime);
+                System.out.println("MyAnimeList link: " + malLink + anime.getMalId());
                 System.out.println();
                 counter++;
             }

@@ -47,6 +47,8 @@ public class MalRecommendations {
     }
 
     public static void printResult() {
+        String malLink = "https://myanimelist.net/anime/";
+
         System.out.println("Your recommended animes are: ");
         System.out.println();
 
@@ -55,6 +57,7 @@ public class MalRecommendations {
             for(int i = 0; i < 10; i++) {
                 System.out.println("Number " + counter + " recommendation");
                 System.out.println(malRecommendations.get(i));
+                System.out.println("MyAnimeList link: " + malLink + malRecommendations.get(i).getMalId());
                 System.out.println();
                 counter++;
             }
@@ -63,6 +66,7 @@ public class MalRecommendations {
             for(RecommendedAnime anime : malRecommendations) {
                 System.out.println("Number " + counter + " recommendation");
                 System.out.println(anime);
+                System.out.println("MyAnimeList link: " + malLink + anime.getMalId());
                 System.out.println();
                 counter++;
             }
